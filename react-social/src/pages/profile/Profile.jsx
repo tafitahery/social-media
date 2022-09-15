@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import Feed from '../../components/feed/Feed';
 import Rightbar from '../../components/rightbar/Rightbar';
 import Sidebar from '../../components/sidebar/Sidebar';
@@ -9,14 +10,15 @@ import './profile.css';
 function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [user, setUser] = useState({});
+  const username = useParams().username;
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data } = await axios.get(`/users?username=jhon`);
+      const { data } = await axios.get(`/users?username=${username}`);
       setUser(data);
     };
     fetchUser();
-  }, []);
+  }, [username]);
 
   return (
     <>
@@ -43,7 +45,7 @@ function Profile() {
             </div>
           </div>
           <div className="proflileRightBottom">
-            <Feed username="jhon" />
+            <Feed username={username} />
             <Rightbar user={user} />
           </div>
         </div>
